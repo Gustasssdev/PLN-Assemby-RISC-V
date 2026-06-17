@@ -137,9 +137,12 @@ O programa implementa comparação que considera variações entre maiúsculas e
 - O tamanho máximo de buffers é 600 bytes
 - Cada palavra pode ter até 100 caracteres
 
-## ✨ Autor
+## 👥 Autores
 
-Projeto de Arquitetura de Computadores - RISC-V Assembly
+- [**Gustavo de Sousa**](https://github.com/Gustasssdev)
+- [**Diogo Rangel**](https://github.com/DiogoRangel11)
+
+**Projeto de Arquitetura de Computadores - RISC-V Assembly**
 
 ---
 
