@@ -141,6 +141,7 @@ O programa implementa comparação que considera variações entre maiúsculas e
 
 - [**Gustavo de Sousa**](https://github.com/Gustasssdev)
 - [**Diogo Rangel**](https://github.com/DiogoRangel11)
+- [**Pedro Luz Lima**](https://github.com/pLuzLim)
 
 **Projeto de Arquitetura de Computadores - RISC-V Assembly**
 
