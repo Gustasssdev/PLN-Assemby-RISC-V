@@ -1,13 +1,13 @@
 #Trabalho de Arquitetura:
 import re
 i = 0
+resultado = None
 pontuacao = 1
 palavras_repetidas = dict()
 texto = "luz luz e diogo,diogo,gustavo GUSTAVO sao da computacao"
 lista_separada = re.split(r'(\W+)', texto)
 pontuacoes = re.findall(r'[^\w\s]', texto)
 msg_tratada = [item.strip() for item in lista_separada if item.strip()]
-print(msg_tratada)
 
 def position(text, palavra, segunda_aparicao):
     inicio = -1
@@ -16,7 +16,6 @@ def position(text, palavra, segunda_aparicao):
         if inicio == -1:
             return 0
     return inicio
-
 
 for palavra in msg_tratada:
      if i == 0:
@@ -38,19 +37,14 @@ for palavra in msg_tratada:
                 palavras_repetidas[palavra.lower()] = pos + 1
      i += 1
 
-print(f"Mensagem final sem repetições consecutivas:\n{msg_final}")
-print("Palavras que se repetiram: ")
-print(palavras_repetidas)
-print(lista_separada)
-
 #Percorrer a lista das palavras repetidas:
 i = 0
 for word in palavras_repetidas:
-     if i == 0:
+    if i == 0:
         resultado = f"{word.capitalize()} - {palavras_repetidas[word]}"
-     else:
+    else:
         resultado += f" {word.capitalize()} - {palavras_repetidas[word]}"
-     i += 1
+    i += 1
 
 with open("Resultado.txt", "w") as file:
     file.write(f"{msg_final}\n")
