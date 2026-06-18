@@ -2,140 +2,68 @@
 
 ## 📋 Descrição do Projeto
 
-Este projeto implementa um programa em **Assembly RISC-V** que processa uma string de entrada, identifica e elimina palavras duplicadas, gerando um arquivo de saída contendo:
+Este projeto consiste em um programa desenvolvido em **Assembly RISC-V** que processa uma string de entrada, identifica palavras duplicadas e gera um arquivo de saída (`resultado.txt`). 
 
-1. **String Filtrada**: Contém as palavras originais sem repetições
-2. **String de Duplicatas**: Lista as palavras que foram encontradas repetidas
+O diferencial desta versão é que o programa:
+1. **Filtra a String Original**: Mantém apenas a primeira ocorrência de cada palavra.
+2. **Identifica Duplicatas com Índice**: Lista as palavras que se repetiram e indica em qual posição (índice) do texto original elas foram encontradas.
+3. **Preserva Pontuação**: Mantém os separadores originais na string filtrada.
 
-## 🎯 Funcionalidade Principal
+## 🎯 Funcionalidades
 
-O programa realiza as seguintes operações:
-
-- ✅ Lê uma string de entrada
-- ✅ Percorre caractere por caractere identificando palavras
-- ✅ Compara palavras novas com as já processadas
-- ✅ Filtra palavras duplicadas (considerando variações maiúsculas/minúsculas)
-- ✅ Gera saída com palavras únicas
-- ✅ Registra palavras duplicadas encontradas
+- ✅ **Processamento de Strings**: Identifica palavras alfanuméricas (A-Z, a-z, 0-9).
+- ✅ **Comparação Case-Insensitive**: Reconhece que "GUSTAVO" e "gustavo" são a mesma palavra.
+- ✅ **Geração de Arquivo**: Cria um arquivo `resultado.txt` com os resultados.
+- ✅ **Rastreamento de Posição**: Adiciona o índice de onde a palavra duplicada foi encontrada na string original.
 
 ## 🏗️ Estrutura do Código
 
 ### Seção de Dados (`.data`)
 
 ```assembly
-msg:              # String de entrada
-string_final:     # String filtrada (sem repetidos)
-string_repetidos: # String contendo os repetidos
-string_atual:     # Buffer para a palavra atual sendo processada
-string_prev:      # Buffer para a palavra anterior para comparação
+msg:              # String de exemplo para processamento
+string_final:     # Buffer para a string filtrada
+string_repetidos: # Buffer para palavras duplicadas + índices
+write:            # Nome do arquivo de saída ("resultado.txt")
+dash:             # Caractere separador ("-") para os índices
 ```
 
-### Seção de Código (`.text`)
+### Registradores Principais
 
-O programa implementa um algoritmo que:
+- `t0`: Ponteiro da string de entrada.
+- `s9`: Ponteiro para `string_final`.
+- `s10`: Ponteiro para `string_repetidos`.
+- `t4`: Contador de caracteres (índice global).
+- `s8`: Tamanho da palavra atual.
+- `s4`: Tamanho da palavra anterior (para comparação rápida).
 
-1. **Leitura de Bits**: Extrai caracteres alpanuméricos (A-Z, a-z, 0-9)
-2. **Comparação**: Compara a palavra atual com palavras anteriores
-3. **Filtro**: Remove palavras já processadas
-4. **Saída**: Exibe as strings processadas
+## 💻 Fluxo de Lógica
 
-## 💻 Fluxo de Execução
+1. **Varredura**: O programa lê a `msg` caractere por caractere.
+2. **Filtro Alfanumérico**: Ignora símbolos para delimitar palavras, mas os preserva na `string_final`.
+3. **Comparação**:
+   - Se a palavra atual é diferente da anterior (tamanho ou conteúdo), ela é copiada para `string_final`.
+   - Se for igual (mesmo ignorando case), ela é enviada para `string_repetidos`.
+4. **Indexação**: Quando uma duplicata é achada, o programa calcula sua posição inicial na string original e anexa ao lado da palavra (ex: `palavra-15`).
+5. **Saída em Arquivo**: Utiliza as syscalls RISC-V para abrir, escrever e fechar o arquivo `resultado.txt`.
 
-```
-Início
-  ↓
-Lê caractere da entrada
-  ↓
-É alfanumérico?
-  ├─ Sim: Adiciona à string atual
-  └─ Não: Processa a palavra
-    ↓
-Compara com palavras anteriores
-  ├─ Duplicada: Adiciona a string_repetidos
-  └─ Única: Adiciona a string_final
-    ↓
-Fim da entrada?
-  ├─ Não: Volta ao início
-  └─ Sim: Exibe resultado
-```
+## 📝 Exemplo
 
-## 📝 Exemplo de Uso
+**Entrada (`msg`):**
+`"luz luz e diogo,diogo,gustavo GUSTAVO sao da computacao"`
 
-**Entrada:**
-```
-"aa.aa/ds ds,fd*gt.gt"
-```
+**Arquivo de Saída (`resultado.txt`):**
+1. **Parte 1 (Filtrada):** `luz  e diogo,,gustavo  sao da computacao`
+2. **Parte 2 (Repetidos):** `luz-5 diogo-17 GUSTAVO-31`
 
-**Saída esperada:**
-- **String Final**: `aa`, `ds`, `fd`, `gt` (sem repetições)
-- **String Repetidos**: `aa`, `ds`, `gt` (palavras que se repetiram)
-
-## 🔤 Detalhes Técnicos
-
-### Faixa de Caracteres Suportados
-
-- **0-9**: ASCII 48-57
-- **A-Z**: ASCII 65-90
-- **a-z**: ASCII 97-122
-
-### Comparação Case-Insensitive
-
-O programa implementa comparação que considera variações entre maiúsculas e minúsculas:
-- Diferença de 32 entre maiúscula e minúscula é ignorada
-- Exemplo: `"Palavra"` e `"palavra"` são consideradas iguais
+*(Nota: Os separadores e espaços são mantidos na primeira parte para preservar a estrutura do texto original).*
 
 ## 🚀 Como Executar
 
-1. Utilize um simulador ou assembler RISC-V
-2. Carregue o arquivo `trabalhoplnassembly.asm`
-3. Execute o programa
-4. O resultado será exibido através de syscall (a7=4)
-
-### Requisitos
-
-- Simulador RISC-V (ex: MARS, Spike, ou similar)
-- Suporte a syscalls para I/O (print, exit)
-
-## 📁 Arquivos
-
-- `trabalhoplnassembly.asm` - Código fonte em Assembly RISC-V
-- `README.md` - Este arquivo
-
-## 🛠️ Componentes Principais
-
-| Componente | Descrição |
-|-----------|-----------|
-| `msg` | String de entrada a ser processada |
-| `string_final` | Buffer de 600 bytes para palavras únicas |
-| `string_repetidos` | Buffer de 600 bytes para palavras duplicadas |
-| `string_atual` | Buffer de 100 bytes para a palavra em processamento |
-| `string_prev` | Buffer de 100 bytes para comparação com palavra anterior |
-
-## 📊 Registradores Utilizados
-
-- `t0` - Ponteiro da string de entrada
-- `t3` - Ponteiro da string final
-- `t5` - Ponteiro da string de repetidos
-- `t4` - Contador de tamanho
-- `s0-s6` - Registradores de propósito geral
-- `a0, a1, a3` - Registradores de argumentos
-- `a7` - Número da syscall
-
-## 🔄 Algoritmo de Comparação
-
-1. Verifica se tamanhos das palavras são diferentes
-2. Se diferentes → palavra é única, adiciona à string_final
-3. Se iguais → compara byte a byte:
-   - Verifica igualdade exata
-   - Verifica diferença de 32 (case-insensitive)
-4. Se todas as comparações forem iguais → palavra é duplicada
-
-## 📌 Notas Importantes
-
-- O programa assume palavras separadas por caracteres não-alfanuméricos
-- A comparação é case-insensitive
-- O tamanho máximo de buffers é 600 bytes
-- Cada palavra pode ter até 100 caracteres
+1. Utilize um simulador RISC-V que suporte syscalls de arquivo (como o **RARS** ou **MARS**).
+2. Carregue o arquivo `trabalhoplnassembly.asm`.
+3. Monte (Assemble) e Execute (Run).
+4. Verifique o arquivo `resultado.txt` gerado no mesmo diretório.
 
 ## 👥 Autores
 
@@ -147,4 +75,4 @@ O programa implementa comparação que considera variações entre maiúsculas e
 
 ---
 
-**Última atualização:** 2026-06-17
+**Última atualização:** 2026-06-18
