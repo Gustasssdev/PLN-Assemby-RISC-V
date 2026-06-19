@@ -6,7 +6,7 @@ string_atual: .space 100
 string_prev: .space 100
 write: .asciz "resultado.txt"
 dash: .ascii "-"
-
+endl: .byte 10
 
 
 .text
@@ -162,11 +162,17 @@ mv t3, a0
 li a7, 64
 mv a0, t3
 la a1, string_final
-li a2, 600
+mv a2, t4
+ecall
+
+mv a0, t3
+la a1, endl
+li a2, 1
 ecall
 
 mv a0, t3
 la a1, string_repetidos
+mv a2, t4
 ecall
 
 li a7, 57
@@ -174,4 +180,3 @@ ecall
 
 li a7, 10
 ecall
-
