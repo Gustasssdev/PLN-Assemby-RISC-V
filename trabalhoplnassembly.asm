@@ -1,5 +1,5 @@
 .data
-msg: .asciz "luz luz e diogo,diogo,gustavo GUSTAVO sao da computacao" #string exemplo
+msg: .asciz "Ana ana ANA gosta de Python python! teste TESTE teste" #string exemplo
 string_final: .space 600 # string filtrada de repetidos 
 string_repetidos: .space 600 # string de repetidos 
 string_atual: .space 100
