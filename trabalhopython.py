@@ -1,7 +1,6 @@
 #Trabalho de Arquitetura:
 texto = "marcos. marcos. julia julia e thiago thiago thiago sao da fisica fisica experimental"
 i = 0
-<<<<<<< HEAD
 palavra_prev = ""
 palavra_atual = ""
 texto_final = ""
@@ -14,33 +13,6 @@ for letra in texto:
             if palavra_atual.capitalize()  not in palavras_repetidas:
                 palavras_repetidas.append(palavra_atual.capitalize())
             palavra_atual = ""
-=======
-resultado = None
-pontuacao = 1
-palavras_repetidas = dict()
-texto = "Pedro,Pedro Diogo,Gustavo,Gus"
-lista_separada = re.split(r'(\W+)', texto)
-pontuacoes = re.findall(r'[^\w\s]', texto)
-msg_tratada = [item.strip() for item in lista_separada if item.strip()]
-
-def position(text, palavra, segunda_aparicao):
-    inicio = -1
-    for i in range(segunda_aparicao):
-        inicio = text.find(palavra, inicio + 1)
-        if inicio == -1:
-            return 0
-    return inicio
-
-for palavra in msg_tratada:
-     if i == 0:
-            palavra_prev = palavra
-            msg_final = palavra
-     else:
-        if palavra in pontuacoes:
-            if pontuacao == 1:
-                msg_final += palavra
-                pontuacao = 0
->>>>>>> 21c7d1c (Algo)
         else:
             texto_final += palavra_atual + letra
             if i == 0:
@@ -68,4 +40,3 @@ print(palavras_repetidas)
 with open("Resultado.txt", "w") as file:
     file.write(f"{texto_final}\n")
     file.write(f"{resultado}\n")
-
